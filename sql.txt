@@ -1,0 +1,51 @@
+CREATE TABLE products(
+   id INTEGER,
+   name STRING(80),
+   description STRING(120),
+   reference_code STRING(120),
+   PRIMARY KEY (id)
+);
+
+insert into products (name, description, reference_code) values ('Test1','Test1', 'T1A');
+insert into products (name, description, reference_code) values ('Test2','Test2', 'T2A');
+insert into products (name, description, reference_code) values ('Test3','Test3', 'T3A');
+
+
+CREATE TABLE components(
+   id INTEGER,
+   name STRING(80) UNIQUE,
+   description STRING(120),
+   irritating Boolean DEFAULT false,
+   PRIMARY KEY (id)
+);
+
+insert into components (name, description, irritating ) values ('Comp1','Comp1', false);
+insert into components (name, description, irritating ) values ('Comp2','Comp2', true);
+insert into components (name, description, irritating ) values ('Comp3','Comp3', false);
+
+
+CREATE TABLE product_component(
+   product_id INTEGER,
+   component_id INTEGER,
+   PRIMARY KEY (product_id, component_id),
+   FOREIGN KEY (product_id) REFERENCES products(id),
+   FOREIGN KEY (component_id) REFERENCES components(id) 
+);
+ALTER TABLE product_component ADD CONSTRAINT FK_product_component_components FOREIGN KEY(id_components) REFERENCES components(id);
+
+drop table products;
+drop table components;
+drop table product_component;
+
+select * from product_component;
+insert into product_component(product_id, component_id) values(15, 20);
+-----------------------------------------------------------------------
+insert into product_component(product_id, component_id) values(1, 1);
+insert into product_component(product_id, component_id) values(1, 2);
+insert into product_component(product_id, component_id) values(1, 3);
+
+insert into product_component(product_id, component_id) values(2, 1);
+insert into product_component(product_id, component_id) values(3, 2);
+insert into product_component(product_id, component_id) values(2, 3);
+-----------------------------------------------------------------------
+PRAGMA foreign_keys = ON
